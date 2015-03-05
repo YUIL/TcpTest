@@ -11,7 +11,7 @@ import util.JavaDataConverter;
 
 /**
  * @author 宇
- *@version branch
+ *@branch master
  */
 public class Servicer implements Runnable {
 	public Socket socket;
