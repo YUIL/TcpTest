@@ -1,3 +1,4 @@
+
 package server;
 import java.io.BufferedReader;  
 import java.io.DataOutputStream;  
@@ -8,7 +9,13 @@ import java.io.OutputStream;
 import java.net.ServerSocket;  
 import java.net.Socket;  
 import java.util.InputMismatchException;
+
+import util.JavaDataConverter;
   
+/**
+ * @author dj-004
+ * 
+ */
 public class Servicer implements Runnable {  
     public Socket socket;  
     
@@ -29,13 +36,12 @@ public class Servicer implements Runnable {
 	            inputStream.read(buf);
 	            if(buf[0]==0)
 	            	break;
-	            tcpData.setType(bytesToInt(buf));
+	            tcpData.setType(JavaDataConverter.bytesToInt(buf));
 	            buf[0]=buf[1]=buf[2]=buf[3]=0;
 	            if (tcpData.getType()!=0){
-	            	
 		            	inputStream.read(buf);
 		            	if(buf.length!=0){
-		            		byte[] data=new byte[bytesToInt(buf)];
+		            		byte[] data=new byte[JavaDataConverter.bytesToInt(buf)];
 		            		inputStream.read(data);
 		            		tcpData.setData(data);
 		            	}
@@ -53,22 +59,11 @@ public class Servicer implements Runnable {
 	    }   
     }  
     
-	public static int bytesToInt(byte[] src) {  
-	    int value=0;    
-	    for(int i=0;i<src.length;i++){
-	    	value=value|((src[i]& 0xFF)<<(i*8));
-	    }
-	    return value;  
-	}  
 	
     public static void main(String [] args)  
     {  
-    	String s="ÄãºÃ°¡";
     	
-    	byte []b2=s.getBytes();
-    	byte[] b1=new byte[b2.length];
-        System.arraycopy(b2, 0, b1, 0, b2.length);
-        System.out.println(new String (b1));
+        System.out.println("start");
     	try  
         {  
             ServerSocket serverSocket=new ServerSocket(8089);  
@@ -77,7 +72,6 @@ public class Servicer implements Runnable {
                 Socket socket=serverSocket.accept();  
                 new Thread(new Servicer(socket)).start();  
             }  
-            //serverSocket.close();  
         }catch(Exception e){
         	e.printStackTrace();
         }  

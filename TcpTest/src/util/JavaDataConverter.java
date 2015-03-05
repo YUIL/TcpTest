@@ -1,6 +1,14 @@
 package util;
 
-public class DataConverter {
+/**
+ * @author dj-004
+ *
+ */
+public class JavaDataConverter {
+	/**
+	 * @param src	{byte[]:{"length":4}} 
+	 * @return	{int}
+	 */
 	public static int bytesToInt(byte[] src) {  
 	    int value=0;    
 	    for(int i=0;i<src.length;i++){
@@ -8,6 +16,11 @@ public class DataConverter {
 	    }
 	    return value;  
 	}  
+	
+	/**
+	 * @param src	{int}
+	 * @return	{byte[]:{"length":4}} 
+	 */
 	public static byte[] intToBytes(int src){
 		
 		byte[] bytes=new byte[4];
