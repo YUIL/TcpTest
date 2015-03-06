@@ -7,6 +7,22 @@ public class TcpData {
 	int type=0;
 	int length;
 	byte data[]=null;
+	
+	public TcpData(){
+		
+	}
+	public TcpData(int type,int length,byte[] data){
+		this.type=type;
+		this.length=length;
+		this.data=data;
+	}
+	public TcpData(String data){
+		this.type=2;
+		this.data=data.getBytes();
+		this.length=this.data.length;
+	}
+
+
 	//______________________________________________________________________
 	public int getType() {
 		return type;
