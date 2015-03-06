@@ -8,9 +8,16 @@ import java.net.Socket;
 
 import util.JavaDataConverter;
 
+<<<<<<< HEAD
 /**
  * @author dj-004
  * 
+=======
+
+/**
+ * @author 宇
+ *@branch master
+>>>>>>> origin/master
  */
 public class Servicer implements Runnable {
 	public Socket socket;
