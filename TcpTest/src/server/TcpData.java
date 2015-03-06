@@ -1,7 +1,8 @@
 package server;
+import util.JavaDataConverter;
 /**
  * @author dj-004
- *
+ * @changedby dj-004
  */
 public class TcpData {
 	int type=0;
@@ -45,9 +46,22 @@ public class TcpData {
 		this.data = data;
 	}
 	//______________________________________________________________________
+	public void clearData(){
+		type=0;
+		length=0;
+		data=null;
+	}
+	//______________________________________________________________________
 	public String toString() {
 		return "TcpData [type=" + type + ", length="
 				+ data.length+", data="+new String(data)+ "]";
+	}
+	public byte[] toBytes(){
+		byte[] data=new byte[8+this.data.length];
+		System.arraycopy(JavaDataConverter.intToBytes(this.type), 0, data, 0, 4);
+		System.arraycopy(JavaDataConverter.intToBytes(this.length), 0, data, 4, 4);
+		System.arraycopy(this.data, 0, data, 8, this.length);
+		return data;
 	}
 
 }

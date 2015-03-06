@@ -5,20 +5,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import util.JavaDataConverter;
 
-<<<<<<< HEAD
-/**
- * @author dj-004
- * 
-=======
 
 /**
  * @author 宇
- *@branch master
->>>>>>> origin/master
+ * @branch master
+ * @changedby dj-004
  */
+
 public class Servicer implements Runnable {
 	public Socket socket;
 	OutputStream outStream;
@@ -38,19 +35,26 @@ public class Servicer implements Runnable {
 		System.out.println(socket.getRemoteSocketAddress() + " connected!");
 	}
 
-	public void run() {
+	public void run() {//服务线程程序入口
 		
 		TcpData tcpData = new TcpData();
 		boolean stop = false;
 		//开始服务
-		while (!stop) {
-			getRemoteData(tcpData);
-			switch (tcpData.getType()) {
-			case 0:
+		while (!stop) {//循环接受数据
+			getRemoteData(tcpData);//取得一个数据
+			switch (tcpData.getType()) {//判断数据类型
+			case 0://type为0则中断服务
 				stop = true;
 				break;
-			default:
+			default://默认操作：
+				try {//将接受到的数据发回给客户端
+					outStream.write(new TcpData(new String(tcpData.getData())).toBytes());
+				} catch (IOException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
 				System.out.println(tcpData.toString());
+				tcpData.clearData();
 				break;
 			}
 		}
@@ -84,10 +88,11 @@ public class Servicer implements Runnable {
 					inputStream.read(data);
 					tcpData.setData(data);
 				}
-				outStream.write(1);//回客户端一声，表示数据正常接收完了
+				
 			}
-
-		} catch (IOException e) {
+		}catch(SocketException e){
+			System.out.println("client had been closed!");
+		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

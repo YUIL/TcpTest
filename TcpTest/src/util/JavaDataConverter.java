@@ -2,7 +2,7 @@ package util;
 
 /**
  * @author dj-004
- *
+ * @changedby dj-004
  */
 public class JavaDataConverter {
 	/**
