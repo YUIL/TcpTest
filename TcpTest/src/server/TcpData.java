@@ -12,6 +12,17 @@ public class TcpData {
 	public TcpData(){
 		
 	}
+	public TcpData(byte[] bytes){
+		byte[] buf=new byte[4];
+		System.arraycopy(bytes, 0, buf, 0, 4);
+		type=JavaDataConverter.bytesToInt(buf);
+		System.arraycopy(bytes, 4, buf, 0, 4);
+		length=JavaDataConverter.bytesToInt(buf);
+		data=new byte[length];
+/*		System.arraycopy(bytes, 8, data, 0, length);
+		System.out.println("构造函数："+bytes.length);*/
+		
+	}
 	public TcpData(int type,int length,byte[] data){
 		this.type=type;
 		this.length=length;
@@ -54,9 +65,11 @@ public class TcpData {
 	//______________________________________________________________________
 	public String toString() {
 		return "TcpData [type=" + type + ", length="
-				+ data.length+", data="+new String(data)+ "]";
+				+ data.length+", data="+data!=null?new String(data):null+ "]";
 	}
 	public byte[] toBytes(){
+		System.out.println("length:"+this.length);
+		
 		byte[] data=new byte[8+this.data.length];
 		System.arraycopy(JavaDataConverter.intToBytes(this.type), 0, data, 0, 4);
 		System.arraycopy(JavaDataConverter.intToBytes(this.length), 0, data, 4, 4);

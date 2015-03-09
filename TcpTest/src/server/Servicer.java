@@ -46,11 +46,18 @@ public class Servicer implements Runnable {
 			case 0://type为0则中断服务
 				stop = true;
 				break;
+			case 2://type为2则
 			default://默认操作：
+				if(tcpData.getType()>2){
+					System.out.println("类型只能为0、1、2");
+					break;
+				}
 				try {//将接受到的数据发回给客户端
+					System.out.println("asdasd"+tcpData.toString());
 					outStream.write(tcpData.toBytes());
+					System.out.println("l:"+tcpData.toBytes().length);
+					System.out.println("发送"+new TcpData(tcpData.toBytes()).toString());	
 				} catch (IOException e) {
-					// TODO 自动生成的 catch 块
 					e.printStackTrace();
 				}
 				System.out.println(tcpData.toString());
@@ -67,7 +74,6 @@ public class Servicer implements Runnable {
 			try {
 				throw(e);
 			} catch (Exception e1) {
-				// TODO 自动生成的 catch 块
 				e1.printStackTrace();
 			}
 		}
@@ -77,29 +83,31 @@ public class Servicer implements Runnable {
 	private void getRemoteData(TcpData tcpData) {
 		try {
 			byte[] buf = new byte[4];// 用来读取type和len的字节数组
-			inputStream.read(buf);
+			inputStream.read(buf);			
 			tcpData.setType(JavaDataConverter.bytesToInt(buf));
 			if (tcpData.getType() != 0) {// 如果type!=0就读len
 				buf[0] = buf[1] = buf[2] = buf[3] = 0;
 				inputStream.read(buf);
-				if (buf.length != 0) {// 如果len!=0就读data
-					byte[] data = new byte[JavaDataConverter.bytesToInt(buf)];
+				tcpData.setLength(JavaDataConverter.bytesToInt(buf));
+				if (tcpData.getLength()!= 0) {// 如果len!=0就读data
+					byte[] data = new byte[tcpData.getLength()];
 					inputStream.read(data);
 					tcpData.setData(data);
-				}
-				
+				}				
 			}
 		}catch(SocketException e){
 			System.out.println("client had been closed!");
 		}catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
-
-		System.out.println("start");
+/*		TcpData td=new TcpData("s");
+		byte[] bytes=td.toBytes();
+		System.out.println("bbb:"+bytes[4]);
+		System.out.println(new TcpData(td.toBytes()).toString());*/
+		byte[] b=null;
 		try {
 			ServerSocket serverSocket = new ServerSocket(8089);
 			while (true) {
