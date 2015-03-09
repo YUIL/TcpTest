@@ -35,7 +35,7 @@ public class Servicer implements Runnable {
 		System.out.println(socket.getRemoteSocketAddress() + " connected!");
 	}
 
-	public void run() {//服务线程程序入口
+	public void run() {//服务线程入口
 		
 		TcpData tcpData = new TcpData();
 		boolean stop = false;
@@ -48,7 +48,7 @@ public class Servicer implements Runnable {
 				break;
 			default://默认操作：
 				try {//将接受到的数据发回给客户端
-					outStream.write(new TcpData(new String(tcpData.getData())).toBytes());
+					outStream.write(tcpData.toBytes());
 				} catch (IOException e) {
 					// TODO 自动生成的 catch 块
 					e.printStackTrace();
@@ -76,7 +76,6 @@ public class Servicer implements Runnable {
 
 	private void getRemoteData(TcpData tcpData) {
 		try {
-
 			byte[] buf = new byte[4];// 用来读取type和len的字节数组
 			inputStream.read(buf);
 			tcpData.setType(JavaDataConverter.bytesToInt(buf));
