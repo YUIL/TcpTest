@@ -67,9 +67,7 @@ public class TcpData {
 		return "TcpData [type=" + type + ", length="
 				+ data.length+", data="+(data!=null?new String(data):null)+ "]";
 	}
-	public byte[] toBytes(){
-		System.out.println("length:"+this.length);
-		
+	public byte[] toBytes(){		
 		byte[] data=new byte[8+this.data.length];
 		System.arraycopy(JavaDataConverter.intToBytes(this.type), 0, data, 0, 4);
 		System.arraycopy(JavaDataConverter.intToBytes(this.length), 0, data, 4, 4);
