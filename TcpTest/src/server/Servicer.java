@@ -36,7 +36,7 @@ public class Servicer implements Runnable {
 			// TODO 自动生成的 catch 块
 			e2.printStackTrace();
 		}// 获得socket输出流
-		System.out.println(socket.getRemoteSocketAddress() + " connected!");
+		System.out.println(df.format(new Date())+"    "+socket.getRemoteSocketAddress() + " connected!");
 	}
 
 	public void run() {//服务线程入口
@@ -78,7 +78,7 @@ public class Servicer implements Runnable {
 				e1.printStackTrace();
 			}
 		}
-		System.out.println(socket.getRemoteSocketAddress() + " closed!");
+		System.out.println(df.format(new Date())+"    "+socket.getRemoteSocketAddress() + " closed!");
 	}
 
 	private void getRemoteData(TcpData tcpData) {
@@ -105,7 +105,7 @@ public class Servicer implements Runnable {
 
 	public static void main(String[] args) {
 
-		System.out.println("server start:");
+		System.out.println(df.format(new Date())+"    "+"server start:");
 		try {
 			ServerSocket serverSocket = new ServerSocket(8089);
 			while (true) {
