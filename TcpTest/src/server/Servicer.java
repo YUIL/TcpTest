@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import util.JavaDataConverter;
 
@@ -17,6 +19,7 @@ import util.JavaDataConverter;
  */
 
 public class Servicer implements Runnable {
+	public static SimpleDateFormat df= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public Socket socket;
 	OutputStream outStream;
 	InputStream inputStream;
@@ -53,14 +56,11 @@ public class Servicer implements Runnable {
 					break;
 				}
 				try {//将接受到的数据发回给客户端
-					System.out.println("asdasd"+tcpData.toString());
-					outStream.write(tcpData.toBytes());
-					System.out.println("l:"+tcpData.toBytes().length);
-					System.out.println("发送"+new TcpData(tcpData.toBytes()).toString());	
+					outStream.write(tcpData.toBytes());	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				System.out.println(tcpData.toString());
+				System.out.println(df.format(new Date())+"    "+tcpData.toString());
 				tcpData.clearData();
 				break;
 			}
@@ -103,11 +103,8 @@ public class Servicer implements Runnable {
 	}
 
 	public static void main(String[] args) {
-/*		TcpData td=new TcpData("s");
-		byte[] bytes=td.toBytes();
-		System.out.println("bbb:"+bytes[4]);
-		System.out.println(new TcpData(td.toBytes()).toString());*/
-		byte[] b=null;
+
+		System.out.println("server start:");
 		try {
 			ServerSocket serverSocket = new ServerSocket(8089);
 			while (true) {
