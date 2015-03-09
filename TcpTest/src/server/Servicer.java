@@ -16,7 +16,7 @@ import util.JavaDataConverter;
  * @author 宇
  * @branch master
  * @changedby dj-004
- * @madifition mergeTest
+ * @madifition mergeTest2
  */
 
 public class Servicer implements Runnable {
