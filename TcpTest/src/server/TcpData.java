@@ -65,7 +65,7 @@ public class TcpData {
 	//______________________________________________________________________
 	public String toString() {
 		return "TcpData [type=" + type + ", length="
-				+ data.length+", data="+data!=null?new String(data):null+ "]";
+				+ data.length+", data="+(data!=null?new String(data):null)+ "]";
 	}
 	public byte[] toBytes(){
 		System.out.println("length:"+this.length);
